@@ -27,13 +27,9 @@ jobs:
         python -m pip install build
     - name: Build the package
       run: python -m build
-    - name: Prepare the PyPi dist
-      run: mkdir _dist_ && mv dist/*.js* _dist_
     - name: Publish the package to PyPi
       uses: pypa/gh-action-pypi-publish@release/v1
-    - name: Prepare the npm dist
-      run: mv dist/* _dist_ && mv _dist_/*.js* dist
-    - run: npm ci
+    - run: npm i
     - name: Publish the package to npm
       run: npm publish
       env:
