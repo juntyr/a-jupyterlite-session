@@ -30,27 +30,27 @@ dynamic = ["version", "description", "authors", "urls", "keywords"]
 source = "nodejs"
 
 [tool.hatch.metadata.hooks.nodejs]
-fields = ["description", "authors", "urls", "keywords"]
+fields = ["description", "authors", "urls"]
 
 [tool.hatch.build.targets.sdist]
-artifacts = ["a-jupyterlab-session/labextension"]
+artifacts = ["a_jupyterlab_session/labextension"]
 exclude = [".github", "binder"]
 
 [tool.hatch.build.targets.wheel.shared-data]
-"a-jupyterlab-session/labextension" = "share/jupyter/labextensions/a-jupyterlab-session"
+"a_jupyterlab_session/labextension" = "share/jupyter/labextensions/a-jupyterlab-session"
 "install.json" = "share/jupyter/labextensions/a-jupyterlab-session/install.json"
 
 [tool.hatch.build.hooks.version]
-path = "a-jupyterlab-session/_version.py"
+path = "a_jupyterlab_session/_version.py"
 
 [tool.hatch.build.hooks.jupyter-builder]
 dependencies = ["hatch-jupyter-builder>=0.5"]
 build-function = "hatch_jupyter_builder.npm_builder"
 ensured-targets = [
-    "a-jupyterlab-session/labextension/static/style.js",
-    "a-jupyterlab-session/labextension/package.json",
+    "a_jupyterlab_session/labextension/static/style.js",
+    "a_jupyterlab_session/labextension/package.json",
 ]
-skip-if-exists = ["a-jupyterlab-session/labextension/static/style.js"]
+skip-if-exists = ["a_jupyterlab_session/labextension/static/style.js"]
 
 [tool.hatch.build.hooks.jupyter-builder.build-kwargs]
 build_cmd = "build:prod"
@@ -60,7 +60,7 @@ npm = ["jlpm"]
 build_cmd = "install:extension"
 npm = ["jlpm"]
 source_dir = "src"
-build_dir = "a-jupyterlab-session/labextension"
+build_dir = "a_jupyterlab_session/labextension"
 
 [tool.jupyter-releaser.options]
 version_cmd = "hatch version"
@@ -75,3 +75,10 @@ before-build-python = ["jlpm clean:all"]
 
 [tool.check-wheel-contents]
 ignore = ["W002"]
+
+[tool.hatch.envs.docs]
+features = ["docs"]
+[tool.hatch.envs.docs.scripts]
+build = "sphinx-build -W -b html docs docs/_build/html"
+watch = "sphinx-autobuild -W -b html docs docs/_build/html --host 0.0.0.0"
+serve = "python -m http.server --directory docs/_build/html"
