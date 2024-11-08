@@ -13,9 +13,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
   id: 'a-jupyterlab-session:plugin',
   autoStart: true,
   activate: async (app: JupyterFrontEnd) => {
-    console.log(
-      'JupyterLab extension a-jupyterlab-session is activated!'
-    );
+    console.log('JupyterLab extension a-jupyterlab-session is activated!');
 
     // Generate a '%dd.%mm.%yyyy-%hh:%mm:%ss' timestamp
     const timestamp = new Date()
