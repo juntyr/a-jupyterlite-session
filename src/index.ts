@@ -3,6 +3,7 @@ import {
   JupyterFrontEndPlugin
 } from '@jupyterlab/application';
 import { PathExt } from '@jupyterlab/coreutils';
+import { IDefaultFileBrowser } from '@jupyterlab/filebrowser';
 import { Contents } from '@jupyterlab/services';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -12,7 +13,11 @@ import { v4 as uuidv4 } from 'uuid';
 const plugin: JupyterFrontEndPlugin<void> = {
   id: 'a-jupyterlab-session:plugin',
   autoStart: true,
-  activate: async (app: JupyterFrontEnd) => {
+  requires: [IDefaultFileBrowser],
+  activate: async (
+    app: JupyterFrontEnd,
+    defaultFileBrowser: IDefaultFileBrowser
+  ) => {
     console.log('JupyterLab extension a-jupyterlab-session is activated!');
 
     // Generate a '%dd.%mm.%yyyy-%hh:%mm:%ss' timestamp
