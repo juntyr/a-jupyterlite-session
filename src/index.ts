@@ -5,6 +5,7 @@ import {
 import { PathExt } from '@jupyterlab/coreutils';
 import { IDefaultFileBrowser } from '@jupyterlab/filebrowser';
 import { Contents } from '@jupyterlab/services';
+import { Token } from '@lumino/coreutils';
 import { v4 as uuidv4 } from 'uuid';
 
 /**
@@ -13,7 +14,7 @@ import { v4 as uuidv4 } from 'uuid';
 const plugin: JupyterFrontEndPlugin<void> = {
   id: 'a-jupyterlab-session:plugin',
   autoStart: true,
-  requires: [IDefaultFileBrowser],
+  requires: [IDefaultFileBrowser as unknown as Token<any>],
   activate: async (
     app: JupyterFrontEnd,
     defaultFileBrowser: IDefaultFileBrowser
