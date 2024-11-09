@@ -99,7 +99,17 @@
     },
     "jupyterlab": {
         "extension": true,
-        "outputDir": "a_jupyterlab_session/labextension"
+        "outputDir": "a_jupyterlab_session/labextension",
+        "sharedPackages": {
+            "@jupyterlite/contents": {
+                "bundled": false,
+                "singleton": true
+            },
+            "@jupyterlite/server": {
+                "bundled": false,
+                "singleton": true
+            }
+        }
     },
     "jupyterlite": {
         "liteExtension": true
