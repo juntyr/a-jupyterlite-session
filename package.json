@@ -101,6 +101,9 @@
         "extension": true,
         "outputDir": "a_jupyterlab_session/labextension"
     },
+    "jupyterlite": {
+        "liteExtension": true
+    },
     "eslintIgnore": [
         "node_modules",
         "dist",
