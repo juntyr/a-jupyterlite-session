@@ -19,7 +19,26 @@ const plugin: JupyterFrontEndPlugin<void> = {
     app: JupyterFrontEnd,
     defaultFileBrowser: IDefaultFileBrowser
   ) => {
+    const SESSIONS = '.sessions';
+    const REQUIREMENTS = 'requirements.txt';
+
     console.log('JupyterLab extension a-jupyterlab-session is activated!');
+
+    await app.serviceManager.contents
+      .get(SESSIONS, { content: false })
+      .catch(() => {
+        return app.serviceManager.contents
+          .newUntitled({
+            type: 'directory' as Contents.ContentType,
+            path: PathExt.dirname(SESSIONS)
+          })
+          .then(async directory => {
+            return await app.serviceManager.contents.rename(
+              directory.path,
+              SESSIONS
+            );
+          });
+      });
 
     // Generate a '%dd.%mm.%yyyy-%hh:%mm:%ss' timestamp
     const timestamp = new Date()
@@ -37,7 +56,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
     const salt = uuidv4().slice(0, 8);
 
     // Generate a unique session directory name with the current time and a random suffix
-    const session = `${timestamp}-${salt}`;
+    const session = PathExt.join(SESSIONS, `${timestamp}-${salt}`);
 
     // Create the new directory
     await app.serviceManager.contents
@@ -46,14 +65,25 @@ const plugin: JupyterFrontEndPlugin<void> = {
         path: PathExt.dirname(session)
       })
       .then(async directory => {
-        await app.serviceManager.contents.rename(directory.path, session);
+        return await app.serviceManager.contents.rename(
+          directory.path,
+          session
+        );
       });
 
     // Navigate the filebrowser to the new session directory
-    const filePath = PathExt.join('tree/', session);
-    app.commands.execute('filebrowser:open-path', {
-      path: filePath
+    await app.commands.execute('filebrowser:open-path', {
+      path: session
     });
+
+    // Copy the current requirements.txt file to the new session folder
+    await app.serviceManager.contents
+      .copy(REQUIREMENTS, session)
+      .catch(reason =>
+        console.warn(
+          `Failed to copy the ${REQUIREMENTS} file to the new session: ${reason}`
+        )
+      );
   }
 };
 
