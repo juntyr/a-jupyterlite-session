@@ -1,41 +1,37 @@
-import {
-  JupyterFrontEnd,
-  JupyterFrontEndPlugin
-} from '@jupyterlab/application';
 import { PathExt } from '@jupyterlab/coreutils';
-import { IDefaultFileBrowser } from '@jupyterlab/filebrowser';
 import { Contents } from '@jupyterlab/services';
-import { Token } from '@lumino/coreutils';
+import { IContents } from '@jupyterlite/contents';
+import {
+  JupyterLiteServer,
+  JupyterLiteServerPlugin
+} from '@jupyterlite/server';
 import { v4 as uuidv4 } from 'uuid';
 
 /**
  * Initialization data for the a-jupyterlab-session extension.
  */
-const plugin: JupyterFrontEndPlugin<void> = {
+const plugin: JupyterLiteServerPlugin<void> = {
   id: 'a-jupyterlab-session:plugin',
   autoStart: true,
-  requires: [IDefaultFileBrowser as unknown as Token<any>],
-  activate: async (
-    app: JupyterFrontEnd,
-    defaultFileBrowser: IDefaultFileBrowser
-  ) => {
+  requires: [IContents],
+  activate: async (app: JupyterLiteServer, contents: IContents) => {
     const SESSIONS = '.sessions';
     const REQUIREMENTS = 'requirements.txt';
 
-    console.log('JupyterLab extension a-jupyterlab-session is activated!');
+    console.log(
+      'JupyterLite server extension a-jupyterlab-session is activated!'
+    );
 
-    await app.serviceManager.contents
-      .get(SESSIONS, { content: false })
-      .catch(async () => {
-        await app.serviceManager.contents
-          .newUntitled({
-            type: 'directory' as Contents.ContentType,
-            path: PathExt.dirname(SESSIONS)
-          })
-          .then(async directory => {
-            await app.serviceManager.contents.rename(directory.path, SESSIONS);
-          });
-      });
+    if (!(await contents.get(SESSIONS, { content: false }))) {
+      await contents
+        .newUntitled({
+          type: 'directory' as Contents.ContentType,
+          path: PathExt.dirname(SESSIONS)
+        })
+        .then(async directory => {
+          await contents.rename(directory!.path, SESSIONS);
+        });
+    }
 
     // Generate a '%dd.%mm.%yyyy-%hh:%mm:%ss' timestamp
     const timestamp = new Date()
@@ -56,13 +52,13 @@ const plugin: JupyterFrontEndPlugin<void> = {
     const session = PathExt.join(SESSIONS, `${timestamp}-${salt}`);
 
     // Create the new directory
-    await app.serviceManager.contents
+    await contents
       .newUntitled({
         type: 'directory' as Contents.ContentType,
         path: PathExt.dirname(session)
       })
       .then(async directory => {
-        await app.serviceManager.contents.rename(directory.path, session);
+        await contents.rename(directory!.path, session);
       });
 
     // Navigate the filebrowser to the new session directory
@@ -71,7 +67,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
     });
 
     // Copy the current requirements.txt file to the new session folder
-    await app.serviceManager.contents
+    await contents
       .copy(REQUIREMENTS, session)
       .catch(reason =>
         console.warn(

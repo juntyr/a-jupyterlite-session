@@ -55,10 +55,10 @@
         "watch:labextension": "jupyter labextension watch ."
     },
     "dependencies": {
-        "@jupyterlab/application": "^4.0.0",
         "@jupyterlab/coreutils": "^6.0.0",
-        "@jupyterlab/filebrowser": "^4.0.0",
         "@jupyterlab/services": "^7.0.0",
+        "@jupyterlite/contents": "^0.4.3",
+        "@jupyterlite/server": "^0.4.3",
         "uuid": "^11.0.0"
     },
     "devDependencies": {
