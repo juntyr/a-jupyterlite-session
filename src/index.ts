@@ -26,17 +26,14 @@ const plugin: JupyterFrontEndPlugin<void> = {
 
     await app.serviceManager.contents
       .get(SESSIONS, { content: false })
-      .catch(() => {
-        return app.serviceManager.contents
+      .catch(async () => {
+        await app.serviceManager.contents
           .newUntitled({
             type: 'directory' as Contents.ContentType,
             path: PathExt.dirname(SESSIONS)
           })
           .then(async directory => {
-            return await app.serviceManager.contents.rename(
-              directory.path,
-              SESSIONS
-            );
+            await app.serviceManager.contents.rename(directory.path, SESSIONS);
           });
       });
 
@@ -65,10 +62,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
         path: PathExt.dirname(session)
       })
       .then(async directory => {
-        return await app.serviceManager.contents.rename(
-          directory.path,
-          session
-        );
+        await app.serviceManager.contents.rename(directory.path, session);
       });
 
     // Navigate the filebrowser to the new session directory
