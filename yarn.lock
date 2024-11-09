@@ -3062,7 +3062,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jupyterlite/contents@npm:^0.4.3, @jupyterlite/contents@npm:^0.4.4":
+"@jupyterlite/contents@npm:^0.4.2, @jupyterlite/contents@npm:^0.4.4":
   version: 0.4.4
   resolution: "@jupyterlite/contents@npm:0.4.4"
   dependencies:
@@ -3106,7 +3106,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jupyterlite/server@npm:^0.4.3":
+"@jupyterlite/server@npm:^0.4.2":
   version: 0.4.4
   resolution: "@jupyterlite/server@npm:0.4.4"
   dependencies:
@@ -4347,8 +4347,8 @@ __metadata:
     "@jupyterlab/coreutils": ^6.0.0
     "@jupyterlab/services": ^7.0.0
     "@jupyterlab/testutils": ^4.0.0
-    "@jupyterlite/contents": ^0.4.3
-    "@jupyterlite/server": ^0.4.3
+    "@jupyterlite/contents": ^0.4.2
+    "@jupyterlite/server": ^0.4.2
     "@types/jest": ^29.2.0
     "@types/json-schema": ^7.0.11
     "@types/react": ^18.0.26
