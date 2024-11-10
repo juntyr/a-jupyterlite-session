@@ -1,5 +1,4 @@
 import { PathExt } from '@jupyterlab/coreutils';
-import { Contents } from '@jupyterlab/services';
 import { IContents } from '@jupyterlite/contents';
 import {
   JupyterLiteServer,
@@ -23,19 +22,27 @@ const plugin: JupyterLiteServerPlugin<void> = {
         'JupyterLite server extension a-jupyterlab-session is activated!'
       );
 
-      if (!(await contents.get(SESSIONS, { content: false }))) {
-        await contents
-          .newUntitled({
-            type: 'directory' as Contents.ContentType,
-            path: PathExt.dirname(SESSIONS)
-          })
-          .then(async directory => {
-            await contents.rename(directory!.path, SESSIONS);
-          });
+      const storage = (await (contents as any).storage) as LocalForage;
+
+      const now = new Date();
+
+      if (!(await storage.getItem(SESSIONS))) {
+        await storage.setItem(SESSIONS, {
+          name: SESSIONS,
+          path: SESSIONS,
+          last_modified: now.toISOString(),
+          created: now.toISOString(),
+          format: 'json',
+          mimetype: '',
+          content: null,
+          size: 0,
+          writable: true,
+          type: 'directory'
+        });
       }
 
       // Generate a '%dd.%mm.%yyyy-%hh:%mm:%ss' timestamp
-      const timestamp = new Date()
+      const timestamp = now
         .toLocaleDateString('en-us', {
           year: 'numeric',
           month: '2-digit',
@@ -53,18 +60,32 @@ const plugin: JupyterLiteServerPlugin<void> = {
       const session = PathExt.join(SESSIONS, `${timestamp}-${salt}`);
 
       // Create the new directory
-      await contents
-        .newUntitled({
-          type: 'directory' as Contents.ContentType,
-          path: PathExt.dirname(session)
-        })
-        .then(async directory => {
-          await contents.rename(directory!.path, session);
-        });
+      await storage.setItem(session, {
+        name: PathExt.basename(session),
+        path: session,
+        last_modified: now.toISOString(),
+        created: now.toISOString(),
+        format: 'json',
+        mimetype: '',
+        content: null,
+        size: 0,
+        writable: true,
+        type: 'directory'
+      });
 
       // Navigate the filebrowser to the new session directory
-      await app.commands.execute('filebrowser:open-path', {
-        path: session
+      app.commands.commandChanged.connect((_sender, { id, type }) => {
+        if (id == 'filebrowser:open-path' && type == 'added') {
+          app.commands
+            .execute('filebrowser:open-path', {
+              path: session
+            })
+            .catch(reason =>
+              console.warn(
+                `Failed to navigate to the new session folder: ${reason}`
+              )
+            );
+        }
       });
 
       // Copy the current requirements.txt file to the new session folder

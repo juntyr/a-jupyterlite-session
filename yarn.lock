@@ -2811,7 +2811,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jupyterlab/services@npm:^7.0.0, @jupyterlab/services@npm:^7.0.9":
+"@jupyterlab/services@npm:^7.0.9":
   version: 7.0.9
   resolution: "@jupyterlab/services@npm:7.0.9"
   dependencies:
@@ -4345,7 +4345,6 @@ __metadata:
   dependencies:
     "@jupyterlab/builder": ^4.0.0
     "@jupyterlab/coreutils": ^6.0.0
-    "@jupyterlab/services": ^7.0.0
     "@jupyterlab/testutils": ^4.0.0
     "@jupyterlite/contents": ^0.4.2
     "@jupyterlite/server": ^0.4.2
