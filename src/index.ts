@@ -75,7 +75,7 @@ const plugin: JupyterLiteServerPlugin<void> = {
 
       // Navigate the filebrowser to the new session directory
       app.commands.commandChanged.connect((_sender, { id, type }) => {
-        if (id == 'filebrowser:open-path' && type == 'added') {
+        if (id === 'filebrowser:open-path' && type === 'added') {
           app.commands
             .execute('filebrowser:open-path', {
               path: session
