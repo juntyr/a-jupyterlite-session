@@ -41,7 +41,7 @@ const plugin: JupyterLiteServerPlugin<void> = {
         });
       }
 
-      // Generate a '%dd.%mm.%yyyy-%hh:%mm:%ss' timestamp
+      // Generate a '%dd-%mm-%yyyy-%hh-%mm-%ss' timestamp
       const timestamp = now
         .toLocaleDateString('en-us', {
           year: 'numeric',
@@ -52,7 +52,8 @@ const plugin: JupyterLiteServerPlugin<void> = {
           second: '2-digit',
           hourCycle: 'h24'
         })
-        .replace(/\//g, '.')
+        .replace(/\//g, '-')
+        .replace(/:/g, '-')
         .replace(', ', '-');
       const salt = uuidv4().slice(0, 8);
 
@@ -74,6 +75,7 @@ const plugin: JupyterLiteServerPlugin<void> = {
       });
 
       // Navigate the filebrowser to the new session directory
+      // FIXME: the command must be executed in the frontend
       app.commands.commandChanged.connect((_sender, { id, type }) => {
         if (id === 'filebrowser:open-path' && type === 'added') {
           app.commands
