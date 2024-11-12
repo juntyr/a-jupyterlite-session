@@ -3,5 +3,5 @@ node_modules
 **/lib
 **/package.json
 !/package.json
-a_jupyterlab_session
+a_jupyterlite_session
 docs/_build

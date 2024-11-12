@@ -1,4 +1,4 @@
-# Making a new release of a-jupyterlab-session
+# Making a new release of a-jupyterlite-session
 
 The extension can be published to `PyPI` and `npm` manually or using the [Jupyter Releaser](https://github.com/jupyter-server/jupyter_releaser).
 

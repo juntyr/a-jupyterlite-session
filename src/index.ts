@@ -2,24 +2,26 @@ import { PathExt } from '@jupyterlab/coreutils';
 import { IContents } from '@jupyterlite/contents';
 import {
   JupyterLiteServer,
-  JupyterLiteServerPlugin
+  JupyterLiteServerPlugin,
+  Router
 } from '@jupyterlite/server';
 import { v4 as uuidv4 } from 'uuid';
 
 /**
- * Initialization data for the a-jupyterlab-session extension.
+ * Initialization data for the a-jupyterlite-session extension.
  */
 const plugin: JupyterLiteServerPlugin<void> = {
-  id: 'a-jupyterlab-session:plugin',
+  id: 'a-jupyterlite-session:plugin',
   autoStart: true,
   requires: [IContents],
   activate: (app: JupyterLiteServer, contents: IContents) => {
     const SESSIONS = '.sessions';
     const REQUIREMENTS = 'requirements.txt';
+    const API_ENDPOINT = '/api/a-session';
 
     contents.ready.then(async () => {
       console.log(
-        'JupyterLite server extension a-jupyterlab-session is activated!'
+        'JupyterLite server extension a-jupyterlite-session is activated!'
       );
 
       const storage = (await (contents as any).storage) as LocalForage;
@@ -57,7 +59,8 @@ const plugin: JupyterLiteServerPlugin<void> = {
         .replace(', ', '-');
       const salt = uuidv4().slice(0, 8);
 
-      // Generate a unique session directory name with the current time and a random suffix
+      // Generate a unique session directory name with the current time and a
+      //  random suffix
       const session = PathExt.join(SESSIONS, `${timestamp}-${salt}`);
 
       // Create the new directory
@@ -74,21 +77,12 @@ const plugin: JupyterLiteServerPlugin<void> = {
         type: 'directory'
       });
 
-      // Navigate the filebrowser to the new session directory
-      // FIXME: the command must be executed in the frontend
-      app.commands.commandChanged.connect((_sender, { id, type }) => {
-        if (id === 'filebrowser:open-path' && type === 'added') {
-          app.commands
-            .execute('filebrowser:open-path', {
-              path: session
-            })
-            .catch(reason =>
-              console.warn(
-                `Failed to navigate to the new session folder: ${reason}`
-              )
-            );
-        }
-      });
+      // Share the session folder location with the `a-jupyterlab-session`
+      //  frontend extension
+      app.router.get(
+        API_ENDPOINT,
+        async (_req: Router.IRequest) => new Response(session)
+      );
 
       // Copy the current requirements.txt file to the new session folder
       await contents

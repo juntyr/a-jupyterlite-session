@@ -1,10 +1,10 @@
-# a mybinder.org-ready environment for demoing a-jupyterlab-session
+# a mybinder.org-ready environment for demoing a-jupyterlite-session
 # this environment may also be used locally on Linux/MacOS/Windows, e.g.
 #
 #   conda env update --file binder/environment.yml
-#   conda activate a-jupyterlab-session-demo
+#   conda activate a-jupyterlite-session-demo
 #
-name: a-jupyterlab-session-demo
+name: a-jupyterlite-session-demo
 
 channels:
   - conda-forge

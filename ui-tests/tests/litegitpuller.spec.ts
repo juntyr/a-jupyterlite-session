@@ -17,7 +17,7 @@ test('should emit an activation console message', async ({ page }) => {
 
   expect(
     logs.filter(
-      s => s === 'JupyterLab extension a-jupyterlab-session is activated!'
+      s => s === 'JupyterLab extension a-jupyterlite-session is activated!'
     )
   ).toHaveLength(1);
 });

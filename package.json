@@ -1,5 +1,5 @@
 {
-    "name": "a-jupyterlab-session",
+    "name": "a-jupyterlite-session",
     "version": "0.1.9",
     "description": "A JupyterLab extension.",
     "keywords": [
@@ -8,9 +8,9 @@
         "jupyterlite",
         "jupyterlite-extension"
     ],
-    "homepage": "https://github.com/juntyr/a-jupyterlab-session",
+    "homepage": "https://github.com/juntyr/a-jupyterlite-session",
     "bugs": {
-        "url": "https://github.com/juntyr/a-jupyterlab-session/issues"
+        "url": "https://github.com/juntyr/a-jupyterlite-session/issues"
     },
     "license": "BSD-3-Clause",
     "author": {
@@ -26,7 +26,7 @@
     "style": "style/index.css",
     "repository": {
         "type": "git",
-        "url": "https://github.com/juntyr/a-jupyterlab-session.git"
+        "url": "https://github.com/juntyr/a-jupyterlite-session.git"
     },
     "scripts": {
         "build": "jlpm build:lib && jlpm build:labextension:dev",
@@ -38,7 +38,7 @@
         "clean": "jlpm clean:lib",
         "clean:lib": "rimraf lib tsconfig.tsbuildinfo",
         "clean:lintcache": "rimraf .eslintcache .stylelintcache",
-        "clean:labextension": "rimraf a_jupyterlab_session/labextension a_jupyterlab_session/_version.py",
+        "clean:labextension": "rimraf a_jupyterlite_session/labextension a_jupyterlite_session/_version.py",
         "clean:all": "jlpm clean:lib && jlpm clean:labextension && jlpm clean:lintcache",
         "eslint": "jlpm eslint:check --fix",
         "eslint:check": "eslint . --cache --ext .ts,.tsx",
@@ -98,7 +98,7 @@
     },
     "jupyterlab": {
         "extension": true,
-        "outputDir": "a_jupyterlab_session/labextension",
+        "outputDir": "a_jupyterlite_session/labextension",
         "sharedPackages": {
             "@jupyterlite/contents": {
                 "bundled": false,

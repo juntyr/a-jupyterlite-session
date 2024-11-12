@@ -6,9 +6,9 @@ author_name: Juniper Tyree
 has_binder: false
 has_settings: false
 kind: frontend
-labextension_name: a-jupyterlab-session
+labextension_name: a-jupyterlite-session
 project_short_description: A JupyterLab extension.
-python_name: a-jupyterlab-session
-repository: https://github.com/juntyr/a-jupyterlab-session
+python_name: a-jupyterlite-session
+repository: https://github.com/juntyr/a-jupyterlite-session
 test: false
 

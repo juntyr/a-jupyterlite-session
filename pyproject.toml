@@ -3,7 +3,7 @@ requires = ["hatchling>=1.5.0,<1.26", "jupyterlab>=4.0.0,<5", "hatch-nodejs-vers
 build-backend = "hatchling.build"
 
 [project]
-name = "a-jupyterlab-session"
+name = "a-jupyterlite-session"
 readme = "README.md"
 license = { file = "LICENSE" }
 requires-python = ">=3.8"
@@ -31,24 +31,24 @@ source = "nodejs"
 fields = ["description", "authors", "urls"]
 
 [tool.hatch.build.targets.sdist]
-artifacts = ["a_jupyterlab_session/labextension"]
+artifacts = ["a_jupyterlite_session/labextension"]
 exclude = [".github", "binder"]
 
 [tool.hatch.build.targets.wheel.shared-data]
-"a_jupyterlab_session/labextension" = "share/jupyter/labextensions/a-jupyterlab-session"
-"install.json" = "share/jupyter/labextensions/a-jupyterlab-session/install.json"
+"a_jupyterlite_session/labextension" = "share/jupyter/labextensions/a-jupyterlite-session"
+"install.json" = "share/jupyter/labextensions/a-jupyterlite-session/install.json"
 
 [tool.hatch.build.hooks.version]
-path = "a_jupyterlab_session/_version.py"
+path = "a_jupyterlite_session/_version.py"
 
 [tool.hatch.build.hooks.jupyter-builder]
 dependencies = ["hatch-jupyter-builder>=0.5"]
 build-function = "hatch_jupyter_builder.npm_builder"
 ensured-targets = [
-    "a_jupyterlab_session/labextension/static/style.js",
-    "a_jupyterlab_session/labextension/package.json",
+    "a_jupyterlite_session/labextension/static/style.js",
+    "a_jupyterlite_session/labextension/package.json",
 ]
-skip-if-exists = ["a_jupyterlab_session/labextension/static/style.js"]
+skip-if-exists = ["a_jupyterlite_session/labextension/static/style.js"]
 
 [tool.hatch.build.hooks.jupyter-builder.build-kwargs]
 build_cmd = "build:prod"
@@ -58,7 +58,7 @@ npm = ["jlpm"]
 build_cmd = "install:extension"
 npm = ["jlpm"]
 source_dir = "src"
-build_dir = "a_jupyterlab_session/labextension"
+build_dir = "a_jupyterlite_session/labextension"
 
 [tool.jupyter-releaser.options]
 version_cmd = "hatch version"

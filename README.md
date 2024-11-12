@@ -1,6 +1,6 @@
-# a-jupyterlab-session
+# a-jupyterlite-session
 
-[![Github Actions Status](https://github.com/juntyr/a-jupyterlab-session/workflows/Build/badge.svg)](https://github.com/juntyr/a-jupyterlab-session/actions/workflows/build.yml)
+[![Github Actions Status](https://github.com/juntyr/a-jupyterlite-session/workflows/Build/badge.svg)](https://github.com/juntyr/a-jupyterlite-session/actions/workflows/build.yml)
 
 ## Requirements
 
@@ -11,7 +11,7 @@
 To install the extension, execute:
 
 ```bash
-pip install a-jupyterlab-session
+pip install a-jupyterlite-session
 ```
 
 ## Uninstall
@@ -19,7 +19,7 @@ pip install a-jupyterlab-session
 To remove the extension, execute:
 
 ```bash
-pip uninstall a-jupyterlab-session
+pip uninstall a-jupyterlite-session
 ```
 
 ## Contributing
@@ -34,7 +34,7 @@ The `jlpm` command is JupyterLab's pinned version of
 
 ```bash
 # Clone the repo to your local environment
-# Change directory to the a-jupyterlab-session directory
+# Change directory to the a-jupyterlite-session directory
 # Install package in development mode
 pip install -e "."
 # Link your development version of the extension with JupyterLab
@@ -63,12 +63,12 @@ jupyter lab build --minimize=False
 ### Development uninstall
 
 ```bash
-pip uninstall a-jupyterlab-session
+pip uninstall a-jupyterlite-session
 ```
 
 In development mode, you will also need to remove the symlink created by `jupyter labextension develop`
 command. To find its location, you can run `jupyter labextension list` to figure out where the `labextensions`
-folder is located. Then you can remove the symlink named `a-jupyterlab-session` within that folder.
+folder is located. Then you can remove the symlink named `a-jupyterlite-session` within that folder.
 
 ### Testing the extension
 

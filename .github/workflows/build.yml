@@ -37,7 +37,7 @@ jobs:
         python -m pip install .[test]
 
         jupyter labextension list
-        jupyter labextension list 2>&1 | grep -ie "a-jupyterlab-session.*OK"
+        jupyter labextension list 2>&1 | grep -ie "a-jupyterlite-session.*OK"
         python -m jupyterlab.browser_check
 
     - name: Package the extension
@@ -46,13 +46,13 @@ jobs:
 
         pip install build
         python -m build
-        pip uninstall -y "a-jupyterlab-session" jupyterlab
+        pip uninstall -y "a-jupyterlite-session" jupyterlab
 
     - name: Upload extension packages
       uses: actions/upload-artifact@v3
       with:
         name: extension-artifacts
-        path: dist/a_jupyterlab_session*
+        path: dist/a_jupyterlite_session*
         if-no-files-found: error
 
   test_isolated:
@@ -75,11 +75,11 @@ jobs:
         sudo rm -rf $(which node)
         sudo rm -rf $(which node)
 
-        pip install "jupyterlab>=4.0.0,<5" a_jupyterlab_session*.whl
+        pip install "jupyterlab>=4.0.0,<5" a_jupyterlite_session*.whl
 
 
         jupyter labextension list
-        jupyter labextension list 2>&1 | grep -ie "a-jupyterlab-session.*OK"
+        jupyter labextension list 2>&1 | grep -ie "a-jupyterlite-session.*OK"
         python -m jupyterlab.browser_check --no-browser-test
 
   integration-tests:
@@ -108,7 +108,7 @@ jobs:
     - name: Install the extension
       run: |
         set -eux
-        python -m pip install "jupyterlab>=4.0.0,<5" a_jupyterlab_session*.whl
+        python -m pip install "jupyterlab>=4.0.0,<5" a_jupyterlite_session*.whl
 
     - name: Install dependencies
       working-directory: ui-tests
@@ -137,7 +137,7 @@ jobs:
       if: always()
       uses: actions/upload-artifact@v3
       with:
-        name: a-jupyterlab-session-ui-tests_${{ matrix.project }}
+        name: a-jupyterlite-session-ui-tests_${{ matrix.project }}
         path: |
           ui-tests/test-results
           ui-tests/playwright-report
@@ -151,4 +151,4 @@ jobs:
       - uses: jupyterlab/maintainer-tools/.github/actions/base-setup@v1
       - uses: jupyterlab/maintainer-tools/.github/actions/check-links@v1
         with:
-          ignore_links: "https://playwright.dev/docs/intro/ https://mybinder.org/v2/gh/juntyr/a-jupyterlab-session/main.*"
+          ignore_links: "https://playwright.dev/docs/intro/ https://mybinder.org/v2/gh/juntyr/a-jupyterlite-session/main.*"
