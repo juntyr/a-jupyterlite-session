@@ -84,6 +84,14 @@ const plugin: JupyterLiteServerPlugin<void> = {
         async (_req: Router.IRequest) => new Response(session)
       );
 
+      // If litegitpuller is used to load a repo, set its uploadpath to the
+      //  session folder
+      const url = new URL(window.location.href);
+      if (url.searchParams.get('repo') !== null) {
+        url.searchParams.set('uploadpath', session);
+        window.history.replaceState(null, '', url);
+      }
+
       // Copy the current requirements.txt file to the new session folder
       await contents
         .copy(REQUIREMENTS, session)
