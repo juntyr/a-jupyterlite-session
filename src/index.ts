@@ -16,6 +16,7 @@ const plugin: JupyterLiteServerPlugin<void> = {
   requires: [IContents],
   activate: (app: JupyterLiteServer, contents: IContents) => {
     const SESSIONS = '.sessions';
+    const README = 'README.md';
     const REQUIREMENTS = 'requirements.txt';
     const API_ENDPOINT = '/api/a-session';
 
@@ -91,6 +92,15 @@ const plugin: JupyterLiteServerPlugin<void> = {
         url.searchParams.set('uploadpath', session);
         window.history.replaceState(null, '', url);
       }
+
+      // Copy the current README.md file to the new session folder
+      await contents
+        .copy(README, session)
+        .catch(reason =>
+          console.warn(
+            `Failed to copy the ${README} file to the new session: ${reason}`
+          )
+        );
 
       // Copy the current requirements.txt file to the new session folder
       await contents
