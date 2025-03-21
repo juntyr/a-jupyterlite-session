@@ -1,31 +1,33 @@
-import { PathExt } from '@jupyterlab/coreutils';
-import { IContents } from '@jupyterlite/contents';
 import {
-  JupyterLiteServer,
-  JupyterLiteServerPlugin,
-  Router
-} from '@jupyterlite/server';
+  JupyterFrontEnd,
+  JupyterFrontEndPlugin
+} from '@jupyterlab/application';
+import { PathExt } from '@jupyterlab/coreutils';
+import { BrowserStorageDrive } from '@jupyterlite/contents';
+import { IDefaultDrive, Contents } from '@jupyterlab/services';
 import { v4 as uuidv4 } from 'uuid';
 
 /**
  * Initialization data for the a-jupyterlite-session extension.
  */
-const plugin: JupyterLiteServerPlugin<void> = {
+const plugin: JupyterFrontEndPlugin<void> = {
   id: 'a-jupyterlite-session:plugin',
   autoStart: true,
-  requires: [IContents],
-  activate: (app: JupyterLiteServer, contents: IContents) => {
+  requires: [IDefaultDrive],
+  activate: (app: JupyterFrontEnd, idrive: Contents.IDrive) => {
     const SESSIONS = '.sessions';
     const README = 'README.md';
     const REQUIREMENTS = 'requirements.txt';
     const API_ENDPOINT = '/api/a-session';
 
-    contents.ready.then(async () => {
+    const drive = idrive as BrowserStorageDrive;
+
+    drive.ready.then(async () => {
       console.log(
         'JupyterLite server extension a-jupyterlite-session is activated!'
       );
 
-      const storage = (await (contents as any).storage) as LocalForage;
+      const storage = (drive as any)._storage as LocalForage;
 
       const now = new Date();
 
@@ -94,7 +96,7 @@ const plugin: JupyterLiteServerPlugin<void> = {
       }
 
       // Copy the current README.md file to the new session folder
-      await contents
+      await drive
         .copy(README, session)
         .catch(reason =>
           console.warn(
@@ -103,7 +105,7 @@ const plugin: JupyterLiteServerPlugin<void> = {
         );
 
       // Copy the current requirements.txt file to the new session folder
-      await contents
+      await drive
         .copy(REQUIREMENTS, session)
         .catch(reason =>
           console.warn(

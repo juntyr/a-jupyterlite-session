@@ -1,7 +1,7 @@
 {
     "name": "a-jupyterlite-session",
     "version": "0.1.12",
-    "description": "A JupyterLab extension.",
+    "description": "A JupyterLite extension.",
     "keywords": [
         "jupyter",
         "jupyterlab",
@@ -56,9 +56,11 @@
         "watch:labextension": "jupyter labextension watch ."
     },
     "dependencies": {
+        "@jupyterlab/application": "^4.0.0",
         "@jupyterlab/coreutils": "^6.0.0",
-        "@jupyterlite/contents": "^0.4.2",
-        "@jupyterlite/server": "^0.4.2",
+        "@jupyterlab/services": "~7.4.0-beta.1",
+        "@jupyterlite/contents": "^0.6.0-alpha.4",
+        "@jupyterlite/services-extension": "^0.6.0-alpha.4",
         "uuid": "^11.0.0"
     },
     "devDependencies": {
@@ -103,15 +105,8 @@
             "@jupyterlite/contents": {
                 "bundled": false,
                 "singleton": true
-            },
-            "@jupyterlite/server": {
-                "bundled": false,
-                "singleton": true
             }
         }
-    },
-    "jupyterlite": {
-        "liteExtension": true
     },
     "eslintIgnore": [
         "node_modules",
