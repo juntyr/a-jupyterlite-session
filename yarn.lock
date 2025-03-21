@@ -2447,19 +2447,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jupyterlab/observables@npm:~5.4.0-beta.1":
-  version: 5.4.0-beta.2
-  resolution: "@jupyterlab/observables@npm:5.4.0-beta.2"
-  dependencies:
-    "@lumino/algorithm": ^2.0.2
-    "@lumino/coreutils": ^2.2.0
-    "@lumino/disposable": ^2.1.3
-    "@lumino/messaging": ^2.0.2
-    "@lumino/signaling": ^2.1.3
-  checksum: 4f05a240b612329d6dc99a77ead91e94ef7124ab84d38ccd52aa54116e96c49d6ed40fb6ca04158681bcdc2be333168624ef64fd06f9f6e163cd16849846e1bd
-  languageName: node
-  linkType: hard
-
 "@jupyterlab/outputarea@npm:^4.3.6":
   version: 4.3.6
   resolution: "@jupyterlab/outputarea@npm:4.3.6"
@@ -2569,7 +2556,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jupyterlab/settingregistry@npm:^4.4.0-beta.2, @jupyterlab/settingregistry@npm:~4.4.0-beta.1":
+"@jupyterlab/settingregistry@npm:^4.4.0-beta.2":
   version: 4.4.0-beta.2
   resolution: "@jupyterlab/settingregistry@npm:4.4.0-beta.2"
   dependencies:
@@ -2748,23 +2735,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jupyterlite/kernel@npm:^0.6.0-alpha.4":
-  version: 0.6.0-alpha.4
-  resolution: "@jupyterlite/kernel@npm:0.6.0-alpha.4"
-  dependencies:
-    "@jupyterlab/coreutils": ~6.4.0-beta.1
-    "@jupyterlab/observables": ~5.4.0-beta.1
-    "@jupyterlab/services": ~7.4.0-beta.1
-    "@lumino/coreutils": ^2.2.0
-    "@lumino/disposable": ^2.1.3
-    "@lumino/signaling": ^2.1.3
-    async-mutex: ^0.3.1
-    comlink: ^4.3.1
-    mock-socket: ^9.3.1
-  checksum: 8531a97077c2502a489acab7b93b8cb19cdc8494f62d99c8125385fdf923754a8a3f0f83f79884af5246a2f5a8ee6fc3f25b01a6cfe803ab56226528bc079904
-  languageName: node
-  linkType: hard
-
 "@jupyterlite/localforage@npm:^0.6.0-alpha.4":
   version: 0.6.0-alpha.4
   resolution: "@jupyterlite/localforage@npm:0.6.0-alpha.4"
@@ -2774,49 +2744,6 @@ __metadata:
     localforage: ^1.9.0
     localforage-memoryStorageDriver: ^0.9.2
   checksum: 11fadeae16b0bcdde42f47e4400c65879e981fdaf1fa82350532088b762459b202697325737328d8568035769c46a24a07eb885f3c4f146c892eff59cbf86687
-  languageName: node
-  linkType: hard
-
-"@jupyterlite/services-extension@npm:^0.6.0-alpha.4":
-  version: 0.6.0-alpha.4
-  resolution: "@jupyterlite/services-extension@npm:0.6.0-alpha.4"
-  dependencies:
-    "@jupyterlab/coreutils": ~6.4.0-beta.1
-    "@jupyterlab/services": ~7.4.0-beta.1
-    "@jupyterlite/contents": ^0.6.0-alpha.4
-    "@jupyterlite/kernel": ^0.6.0-alpha.4
-    "@jupyterlite/localforage": ^0.6.0-alpha.4
-    "@jupyterlite/session": ^0.6.0-alpha.4
-    "@jupyterlite/settings": ^0.6.0-alpha.4
-    "@lumino/coreutils": ^2.2.0
-  checksum: 0a5505b433be9e1e370460823f7af2a10d275ad9a580df547b675130e92c10376799c2ba42f067cb70bf15361f8bbd218a38a4c400b4b173e26eda91534540ba
-  languageName: node
-  linkType: hard
-
-"@jupyterlite/session@npm:^0.6.0-alpha.4":
-  version: 0.6.0-alpha.4
-  resolution: "@jupyterlite/session@npm:0.6.0-alpha.4"
-  dependencies:
-    "@jupyterlab/coreutils": ~6.4.0-beta.1
-    "@jupyterlab/services": ~7.4.0-beta.1
-    "@jupyterlite/kernel": ^0.6.0-alpha.4
-    "@lumino/algorithm": ^2.0.2
-    "@lumino/coreutils": ^2.2.0
-  checksum: 8cf4845deca46556d9b5cd64134f8a0b80681513c88cb3971f00d72118e326ae896448ae479e53c9744f8f465815be9f6482fe5b7dafef814236bd7ee3307f7e
-  languageName: node
-  linkType: hard
-
-"@jupyterlite/settings@npm:^0.6.0-alpha.4":
-  version: 0.6.0-alpha.4
-  resolution: "@jupyterlite/settings@npm:0.6.0-alpha.4"
-  dependencies:
-    "@jupyterlab/coreutils": ~6.4.0-beta.1
-    "@jupyterlab/settingregistry": ~4.4.0-beta.1
-    "@jupyterlite/localforage": ^0.6.0-alpha.4
-    "@lumino/coreutils": ^2.2.0
-    json5: ^2.2.0
-    localforage: ^1.9.0
-  checksum: 1591fce88daab95e995ecc87f3b3f793c9fbf5f57e6a8177454d3271ebd2b5a9f930548c4de2e2ebad5430754353fa5e3b9723a0dfb041675e31c44a5f6f5003
   languageName: node
   linkType: hard
 
@@ -3893,7 +3820,7 @@ __metadata:
     "@jupyterlab/services": ~7.4.0-beta.1
     "@jupyterlab/testutils": ^4.0.0
     "@jupyterlite/contents": ^0.6.0-alpha.4
-    "@jupyterlite/services-extension": ^0.6.0-alpha.4
+    "@lumino/coreutils": ^2.2.0
     "@types/jest": ^29.2.0
     "@types/json-schema": ^7.0.11
     "@types/react": ^18.0.26
@@ -4177,15 +4104,6 @@ __metadata:
   version: 1.0.0
   resolution: "async-function@npm:1.0.0"
   checksum: 9102e246d1ed9b37ac36f57f0a6ca55226876553251a31fc80677e71471f463a54c872dc78d5d7f80740c8ba624395cccbe8b60f7b690c4418f487d8e9fd1106
-  languageName: node
-  linkType: hard
-
-"async-mutex@npm:^0.3.1":
-  version: 0.3.2
-  resolution: "async-mutex@npm:0.3.2"
-  dependencies:
-    tslib: ^2.3.1
-  checksum: 620b771dfdea1cad0a6b712915c31a1e3ca880a8cf1eae92b4590f435995e0260929c6ebaae0b9126b1456790ea498064b5bb9a506948cda760f48d3d0dcc4c8
   languageName: node
   linkType: hard
 
@@ -4651,13 +4569,6 @@ __metadata:
   dependencies:
     delayed-stream: ~1.0.0
   checksum: 49fa4aeb4916567e33ea81d088f6584749fc90c7abec76fd516bf1c5aa5c79f3584b5ba3de6b86d26ddd64bae5329c4c7479343250cfe71c75bb366eae53bb7c
-  languageName: node
-  linkType: hard
-
-"comlink@npm:^4.3.1":
-  version: 4.4.2
-  resolution: "comlink@npm:4.4.2"
-  checksum: 35313f26fdd78c202be21be49a7607f57e9e91963399b524676742ee0cf7db589be500d923ed0809b53f37996461186fb345bf867d93236be22bfae3cb7bd07e
   languageName: node
   linkType: hard
 
@@ -7503,7 +7414,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"json5@npm:^2.1.2, json5@npm:^2.2.0, json5@npm:^2.2.3":
+"json5@npm:^2.1.2, json5@npm:^2.2.3":
   version: 2.2.3
   resolution: "json5@npm:2.2.3"
   bin:
@@ -8124,13 +8035,6 @@ __metadata:
   bin:
     mkdirp: dist/cjs/src/bin.js
   checksum: 972deb188e8fb55547f1e58d66bd6b4a3623bf0c7137802582602d73e6480c1c2268dcbafbfb1be466e00cc7e56ac514d7fd9334b7cf33e3e2ab547c16f83a8d
-  languageName: node
-  linkType: hard
-
-"mock-socket@npm:^9.3.1":
-  version: 9.3.1
-  resolution: "mock-socket@npm:9.3.1"
-  checksum: cb2dde4fc5dde280dd5ccb78eaaa223382ee16437f46b86558017655584ad08c22e733bde2dd5cc86927def506b6caeb0147e3167b9a62d70d5cf19d44103853
   languageName: node
   linkType: hard
 
@@ -10149,7 +10053,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tslib@npm:^2.3.1, tslib@npm:^2.6.2":
+"tslib@npm:^2.6.2":
   version: 2.8.1
   resolution: "tslib@npm:2.8.1"
   checksum: e4aba30e632b8c8902b47587fd13345e2827fa639e7c3121074d5ee0880723282411a8838f830b55100cbe4517672f84a2472667d355b81e8af165a55dc6203a
