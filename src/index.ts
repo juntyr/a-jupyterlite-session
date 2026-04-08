@@ -133,7 +133,9 @@ const plugin: JupyterFrontEndPlugin<IJupyterLiteSession> = {
           const packageKeys = new Array();
           const packageVersions = new Map();
 
-          for (const package_ of Object.values(lock['packages'])) {
+          for (const package__ of Object.values(lock['packages'])) {
+            const package_: any = package__;
+
             if (package_['package_type'] != 'package') {
               continue;
             }
