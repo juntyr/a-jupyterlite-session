@@ -133,27 +133,27 @@ const plugin: JupyterFrontEndPlugin<IJupyterLiteSession> = {
           const packageKeys = new Array();
           const packageVersions = new Map();
 
-          for (const package of Object.values(lock['packages'])) {
-            if (package['package_type'] != 'package') {
+          for (const package_ of Object.values(lock['packages'])) {
+            if (package_['package_type'] != 'package') {
               continue;
             }
-            if (!package['file_name'].endsWith('.whl')) {
+            if (!package_['file_name'].endsWith('.whl')) {
               continue;
             }
-            if (package['install_dir'] != 'site') {
-              continue;
-            }
-
-            if (IGNORE_PACKAGES.includes(package['name'])) {
+            if (package_['install_dir'] != 'site') {
               continue;
             }
 
-            const key = package['name'].toLowerCase();
+            if (IGNORE_PACKAGES.includes(package_['name'])) {
+              continue;
+            }
+
+            const key = package_['name'].toLowerCase();
 
             packageKeys.push(key);
             packageVersions.set(key, {
-              name: package['name'],
-              version: package['version']
+              name: package_['name'],
+              version: package_['version']
             });
           }
 
