@@ -22,6 +22,14 @@ const plugin: JupyterFrontEndPlugin<IJupyterLiteSession> = {
     const README = 'README.md';
     const REQUIREMENTS = 'requirements.txt';
 
+    const LOCKFILE = 'pyodideKernelLockFileURL';
+    const IGNORE_PACKAGES = [
+      'jupyterlite-cors', // climet-eu/lab implementation detail
+      'micropip', // pyodide implementation detail
+      'pyodide-http', // pyodide implementation detail
+      'ipykernel' // JupyterLite provides this package
+    ];
+
     const drive = idrive as BrowserStorageDrive;
     await drive.ready;
 
@@ -97,14 +105,112 @@ const plugin: JupyterFrontEndPlugin<IJupyterLiteSession> = {
         )
       );
 
-    // Copy the current requirements.txt file to the new session folder, without awaiting it
-    drive
-      .copy(REQUIREMENTS, sessionPath)
-      .catch(reason =>
-        console.warn(
-          `Failed to copy the ${REQUIREMENTS} file to the new session: ${reason}`
+    const lockfileUrl = new URL(window.location.href).searchParams.get(
+      LOCKFILE
+    );
+    if (lockfileUrl === null) {
+      // Copy the current requirements.txt file to the new session folder,
+      //  without awaiting it
+      drive
+        .copy(REQUIREMENTS, sessionPath)
+        .catch(reason =>
+          console.warn(
+            `Failed to copy the ${REQUIREMENTS} file to the new session: ${reason}`
+          )
+        );
+    } else {
+      // Fetch the Pyodide lockfile to dynamically create the requirements.txt
+      //  file in the new session folder, without awaiting it
+      fetch(lockfileUrl, { mode: 'cors', credentials: 'omit' })
+        .then(response => response.json())
+        .catch(reason =>
+          console.warn(`Failed to load the Pyodide lockfile: ${reason}`)
         )
-      );
+        .then(lock => {
+          const python = lock['info']['python'];
+          const pyodide = lock['info']['version'];
+
+          const packageKeys = new Array();
+          const packageVersions = new Map();
+
+          for (const package of Object.values(lock['packages'])) {
+            if (package['package_type'] != 'package') {
+              continue;
+            }
+            if (!package['file_name'].endsWith('.whl')) {
+              continue;
+            }
+            if (package['install_dir'] != 'site') {
+              continue;
+            }
+
+            if (IGNORE_PACKAGES.includes(package['name'])) {
+              continue;
+            }
+
+            const key = package['name'].toLowerCase();
+
+            packageKeys.push(key);
+            packageVersions.set(key, {
+              name: package['name'],
+              version: package['version']
+            });
+          }
+
+          const requirements = new Array();
+          requirements.push(
+            '# ========== Online Laboratory for Climate Science and Meteorology =========== #'
+          );
+          requirements.push(
+            '#                                                                              #'
+          );
+          requirements.push(
+            '#                               requirements.txt                               #'
+          );
+          requirements.push(
+            '#                        for a custom Pyodide lockfile                         #'
+          );
+          requirements.push(
+            '#                                                                              #'
+          );
+          requirements.push(
+            '#    This list contains the locked versions of all pre-installed packages.     #'
+          );
+          requirements.push(
+            '# ============================================================================ #'
+          );
+          requirements.push('');
+          requirements.push(`# python == ${python}`);
+          requirements.push(`# pyodide == ${pyodide}`);
+          requirements.push('');
+          for (const key of packageKeys.sort()) {
+            const { name, version } = packageVersions.get(key);
+            requirements.push(`${name} == ${version}`);
+          }
+          requirements.push('');
+
+          const requirementsText = requirements.join('\n');
+          const requirementsPath = PathExt.join(sessionPath, REQUIREMENTS);
+
+          return drive.save(requirementsPath, {
+            name: REQUIREMENTS,
+            path: requirementsPath,
+            last_modified: now.toISOString(),
+            created: now.toISOString(),
+            format: 'text',
+            mimetype: 'text/plain',
+            content: requirementsText,
+            size: new Blob([requirementsText]).size,
+            writable: false,
+            type: 'file'
+          });
+        })
+        .catch(reason =>
+          console.warn(
+            `Failed to create the ${REQUIREMENTS} file for the new session: ${reason}`
+          )
+        );
+    }
 
     return { sessionPath };
   }
