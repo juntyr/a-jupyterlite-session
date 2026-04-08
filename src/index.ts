@@ -132,7 +132,7 @@ const plugin: JupyterFrontEndPlugin<IJupyterLiteSession> = {
 
         let lock;
         try {
-          const response = await fetch(JSON.parse(lockfileUrl), {
+          const response = await fetch(lockfileUrlg, {
             mode: 'cors',
             credentials: 'omit'
           });
