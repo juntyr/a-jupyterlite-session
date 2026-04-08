@@ -105,10 +105,10 @@ const plugin: JupyterFrontEndPlugin<IJupyterLiteSession> = {
         )
       );
 
-    const lockfileUrl = new URL(window.location.href).searchParams.get(
+    const lockfileUrlParam = new URL(window.location.href).searchParams.get(
       LOCKFILE
     );
-    if (lockfileUrl === null) {
+    if (lockfileUrlParam === null) {
       // Copy the current requirements.txt file to the new session folder,
       //  without awaiting it
       drive
@@ -120,13 +120,30 @@ const plugin: JupyterFrontEndPlugin<IJupyterLiteSession> = {
         );
     } else {
       // Fetch the Pyodide lockfile to dynamically create the requirements.txt
-      //  file in the new session folder, without awaiting it
-      fetch(lockfileUrl, { mode: 'cors', credentials: 'omit' })
-        .then(response => response.json())
-        .catch(reason =>
-          console.warn(`Failed to load the Pyodide lockfile: ${reason}`)
-        )
-        .then(lock => {
+      //  file in the new session folder
+      async function createRequirementsFileFromPyodideLockfile() {
+        let lockfileUrl;
+        try {
+          lockfileUrl = JSON.parse(lockfileUrlParam);
+        } catch (reason) {
+          console.warn(`Invalid Pyodide lockfile URL: ${reason}`);
+          return;
+        }
+
+        let lock;
+        try {
+          const response = await fetch(JSON.parse(lockfileUrl), {
+            mode: 'cors',
+            credentials: 'omit'
+          });
+          lock = await response.json();
+        } catch (reason) {
+          console.warn(`Failed to load the Pyodide lockfile: ${reason}`);
+          return;
+        }
+
+        let requirementsText;
+        try {
           const python = lock['info']['python'];
           const pyodide = lock['info']['version'];
 
@@ -191,10 +208,18 @@ const plugin: JupyterFrontEndPlugin<IJupyterLiteSession> = {
           }
           requirements.push('');
 
-          const requirementsText = requirements.join('\n');
+          requirementsText = requirements.join('\n');
+        } catch (reason) {
+          console.warn(
+            `Failed to compute the ${REQUIREMENTS} file from the Pyodide lockfile: ${reason}`
+          );
+          return;
+        }
+
+        try {
           const requirementsPath = PathExt.join(sessionPath, REQUIREMENTS);
 
-          return drive.save(requirementsPath, {
+          await drive.save(requirementsPath, {
             name: REQUIREMENTS,
             path: requirementsPath,
             last_modified: now.toISOString(),
@@ -206,12 +231,14 @@ const plugin: JupyterFrontEndPlugin<IJupyterLiteSession> = {
             writable: false,
             type: 'file'
           });
-        })
-        .catch(reason =>
+        } catch (reason) {
           console.warn(
-            `Failed to create the ${REQUIREMENTS} file for the new session: ${reason}`
-          )
-        );
+            `Failed to save the ${REQUIREMENTS} file for the new session: ${reason}`
+          );
+        }
+      }
+      // do not await the creation of the requirements file
+      createRequirementsFileFromPyodideLockfile();
     }
 
     return { sessionPath };
