@@ -122,8 +122,9 @@ const plugin: JupyterFrontEndPlugin<IJupyterLiteSession> = {
       // Fetch the Pyodide lockfile to dynamically create the requirements.txt
       //  file in the new session folder
       async function createRequirementsFileFromPyodideLockfile() {
-        let lockfileUrl;
+        let lockfileUrl: string;
         try {
+          // @ts-ignore
           lockfileUrl = JSON.parse(lockfileUrlParam);
         } catch (reason) {
           console.warn(`Invalid Pyodide lockfile URL: ${reason}`);
@@ -132,7 +133,7 @@ const plugin: JupyterFrontEndPlugin<IJupyterLiteSession> = {
 
         let lock;
         try {
-          const response = await fetch(lockfileUrlg, {
+          const response = await fetch(lockfileUrl, {
             mode: 'cors',
             credentials: 'omit'
           });
