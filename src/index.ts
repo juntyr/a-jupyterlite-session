@@ -146,7 +146,10 @@ const plugin: JupyterFrontEndPlugin<IJupyterLiteSession> = {
         let requirementsText;
         try {
           const python = lock['info']['python'];
-          const pyodide = lock['info']['version'];
+          const abi = lock['packages']['numpy']?.['file_name']
+            ?.split('-')
+            ?.pop()
+            ?.slice(0, -'_wasm32.whl'.length);
 
           const packageKeys = new Array();
           const packageVersions = new Map();
@@ -201,7 +204,9 @@ const plugin: JupyterFrontEndPlugin<IJupyterLiteSession> = {
           );
           requirements.push('');
           requirements.push(`# python == ${python}`);
-          requirements.push(`# pyodide == ${pyodide}`);
+          if (abi !== undefined) {
+            requirements.push(`# abi == ${abi}`);
+          }
           requirements.push('');
           for (const key of packageKeys.sort()) {
             const { name, version } = packageVersions.get(key);
